@@ -20,19 +20,19 @@ import * as selector_closest from './selector/closest';
 import * as selector_extra from './selector/extra';
 import * as selector from './selector/index';
 import * as type from './type';
-import { extend } from './util';
+import * as util from './util';
 
 const api = {};
 let $ = {};
 
-if (typeof selector !== 'undefined') {
+if(typeof selector !== 'undefined') {
 	$ = selector.$;
 	$.matches = selector.matches;
 	api.find = selector.find;
 }
 
 extend($, dom_contains, type);
-extend(api, array, css, dom_attr, dom, dom_class, dom_data, dom_extra, dom_html, event, event_trigger, event_ready, selector_closest, selector_extra);
+extend(api, array, css, dom_attr, dom, dom_class, dom_data, dom_extra, dom_html, event, event_trigger, event_ready, selector_closest, selector_extra, util);
 
 $.fn = api;
 
@@ -40,10 +40,10 @@ $.fn = api;
 $.version = '__VERSION__';
 
 // Util
-$.extend = extend;
+$.extend = util.extend;
 
 // Provide base class to extend from
-if (typeof BaseClass !== 'undefined') {
+if(typeof BaseClass !== 'undefined') {
 	$.BaseClass = BaseClass($.fn);
 }
 
