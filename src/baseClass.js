@@ -2,11 +2,14 @@
  * @module BaseClass
  */
 
-import {$ as selector, DOMtastic} from './selector/index';
-import {extend} from './util';
+import {
+	DOMtastic, $ as selector
+} from './selector/index';
+import {
+	extend
+} from './util';
 
 export default function (api) {
-
 	/**
 	 * Provide subclass for classes or components to extend from.
 	 * The opposite and successor of plugins (no need to extend `$.fn` anymore, complete control).

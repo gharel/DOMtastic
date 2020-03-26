@@ -2,8 +2,12 @@
  * @module DOM
  */
 
-import {toArray} from '../util';
-import {$} from '../selector/index';
+import {
+	toArray
+} from '../util';
+import {
+	$
+} from '../selector/index';
 
 const forEach = Array.prototype.forEach;
 
@@ -19,16 +23,14 @@ const forEach = Array.prototype.forEach;
  */
 
 export const append = function (element) {
-	if(this instanceof Node) {
-		if(typeof element === 'string') {
+	if (this instanceof Node) {
+		if (typeof element === 'string') {
 			this.insertAdjacentHTML('beforeend', element);
+		} else if (element instanceof Node) {
+			this.appendChild(element);
 		} else {
-			if(element instanceof Node) {
-				this.appendChild(element);
-			} else {
-				const elements = element instanceof NodeList ? toArray(element) : element;
-				forEach.call(elements, this.appendChild.bind(this));
-			}
+			const elements = element instanceof NodeList ? toArray(element) : element;
+			forEach.call(elements, this.appendChild.bind(this));
 		}
 	} else {
 		_each(this, append, element);
@@ -48,16 +50,14 @@ export const append = function (element) {
  */
 
 export const prepend = function (element) {
-	if(this instanceof Node) {
-		if(typeof element === 'string') {
+	if (this instanceof Node) {
+		if (typeof element === 'string') {
 			this.insertAdjacentHTML('afterbegin', element);
+		} else if (element instanceof Node) {
+			this.insertBefore(element, this.firstChild);
 		} else {
-			if(element instanceof Node) {
-				this.insertBefore(element, this.firstChild);
-			} else {
-				let elements = element instanceof NodeList ? toArray(element) : element;
-				forEach.call(elements.reverse(), prepend.bind(this));
-			}
+			const elements = element instanceof NodeList ? toArray(element) : element;
+			forEach.call(elements.reverse(), prepend.bind(this));
 		}
 	} else {
 		_each(this, prepend, element);
@@ -77,16 +77,14 @@ export const prepend = function (element) {
  */
 
 export const before = function (element) {
-	if(this instanceof Node) {
-		if(typeof element === 'string') {
+	if (this instanceof Node) {
+		if (typeof element === 'string') {
 			this.insertAdjacentHTML('beforebegin', element);
+		} else if (element instanceof Node) {
+			this.parentNode.insertBefore(element, this);
 		} else {
-			if(element instanceof Node) {
-				this.parentNode.insertBefore(element, this);
-			} else {
-				const elements = element instanceof NodeList ? toArray(element) : element;
-				forEach.call(elements, before.bind(this));
-			}
+			const elements = element instanceof NodeList ? toArray(element) : element;
+			forEach.call(elements, before.bind(this));
 		}
 	} else {
 		_each(this, before, element);
@@ -105,16 +103,14 @@ export const before = function (element) {
  */
 
 export const after = function (element) {
-	if(this instanceof Node) {
-		if(typeof element === 'string') {
+	if (this instanceof Node) {
+		if (typeof element === 'string') {
 			this.insertAdjacentHTML('afterend', element);
+		} else if (element instanceof Node) {
+			this.parentNode.insertBefore(element, this.nextSibling);
 		} else {
-			if(element instanceof Node) {
-				this.parentNode.insertBefore(element, this.nextSibling);
-			} else {
-				const elements = element instanceof NodeList ? toArray(element) : element;
-				forEach.call(elements.reverse(), after.bind(this));
-			}
+			const elements = element instanceof NodeList ? toArray(element) : element;
+			forEach.call(elements.reverse(), after.bind(this));
 		}
 	} else {
 		_each(this, after, element);
@@ -142,13 +138,13 @@ export const clone = function () {
  * @private
  */
 
-export const _clone = element => {
-	if(typeof element === 'string') {
+export const _clone = (element) => {
+	if (typeof element === 'string') {
 		return element;
-	} else if(element instanceof Node) {
+	} else if (element instanceof Node) {
 		return element.cloneNode(true);
-	} else if('length' in element) {
-		return [].map.call(element, el => el.cloneNode(true));
+	} else if ('length' in element) {
+		return [].map.call(element, (el) => el.cloneNode(true));
 	}
 	return element;
 };
@@ -164,7 +160,7 @@ export const _clone = element => {
 
 export const _each = (collection, fn, element) => {
 	let l = collection.length;
-	while(l--) {
+	while (l--) {
 		const elm = l === 0 ? element : _clone(element);
 		fn.call(collection[l], elm);
 	}

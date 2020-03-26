@@ -2,9 +2,15 @@
  * @module DOM (extra)
  */
 
-import {each} from '../util';
-import {append} from './index';
-import {$} from '../selector/index';
+import {
+	each
+} from '../util';
+import {
+	append
+} from './index';
+import {
+	$
+} from '../selector/index';
 
 /**
  * Append each element in the collection to the specified element(s).
@@ -32,7 +38,7 @@ export const appendTo = function (element) {
  */
 
 export const empty = function () {
-	return each(this, element => element.innerHTML = '');
+	return each(this, (element) => element.innerHTML = '');
 };
 
 /**
@@ -44,8 +50,8 @@ export const empty = function () {
  */
 
 export const remove = function () {
-	return each(this, element => {
-		if(element.parentNode) {
+	return each(this, (element) => {
+		if (element.parentNode) {
 			element.parentNode.removeChild(element);
 		}
 	});
@@ -62,11 +68,11 @@ export const remove = function () {
  */
 
 export const text = function (value) {
-	if(value === undefined) {
+	if (value === undefined) {
 		return this[0].textContent;
 	}
 
-	return each(this, element => element.textContent = '' + value);
+	return each(this, (element) => element.textContent = String(value));
 };
 
 /**
@@ -80,9 +86,9 @@ export const text = function (value) {
  */
 
 export const val = function (value) {
-	if(value === undefined) {
+	if (value === undefined) {
 		return this.length > 0 ? this[0].value : undefined;
 	}
 
-	return each(this, element => element.value = value);
+	return each(this, (element) => element.value = value);
 };

@@ -2,8 +2,12 @@
  * @module Events
  */
 
-import {each} from '../util';
-import {closest} from '../selector/closest';
+import {
+	each
+} from '../util';
+import {
+	closest
+} from '../selector/closest';
 
 /**
  * Shorthand for `addEventListener`. Supports event delegation if a filter (`selector`) is provided.
@@ -21,30 +25,30 @@ import {closest} from '../selector/closest';
  */
 
 export const on = function (eventNames, selector, handler, useCapture, once) {
-	if(typeof selector === 'function') {
+	if (typeof selector === 'function') {
 		handler = selector;
 		selector = null;
 	}
 
-	let parts,
-		namespace,
-		eventListener;
+	let eventListener;
+	let namespace;
+	let parts;
 
-	eventNames.split(' ').forEach(eventName => {
+	eventNames.split(' ').forEach((eventName) => {
 		parts = eventName.split('.');
 		eventName = parts[0] || null;
 		namespace = parts[1] || null;
 
 		eventListener = proxyHandler(handler);
 
-		each(this, element => {
-			if(selector) {
+		each(this, (element) => {
+			if (selector) {
 				eventListener = delegateHandler.bind(element, selector, eventListener);
 			}
 
-			if(once) {
+			if (once) {
 				const listener = eventListener;
-				eventListener = event => {
+				eventListener = (event) => {
 					off.call(element, eventNames, selector, handler, useCapture);
 					listener.call(element, event);
 				};
@@ -60,7 +64,6 @@ export const on = function (eventNames, selector, handler, useCapture, once) {
 				namespace
 			});
 		});
-
 	}, this);
 
 	return this;
@@ -82,43 +85,39 @@ export const on = function (eventNames, selector, handler, useCapture, once) {
  */
 
 export const off = function (eventNames = '', selector, handler, useCapture) {
-	if(typeof selector === 'function') {
+	if (typeof selector === 'function') {
 		handler = selector;
 		selector = null;
 	}
 
-	let parts,
-		namespace,
-		handlers;
+	let handlers;
+	let namespace;
+	let parts;
 
-	eventNames.split(' ').forEach(eventName => {
+	eventNames.split(' ').forEach((eventName) => {
 		parts = eventName.split('.');
 		eventName = parts[0] || null;
 		namespace = parts[1] || null;
 
-		return each(this, element => {
+		return each(this, (element) => {
 			handlers = getHandlers(element);
 
-			each(handlers.filter(item => {
-				return (
-					(!eventName || item.eventName === eventName) &&
+			each(handlers.filter((item) =>
+				(!eventName || item.eventName === eventName) &&
 					(!namespace || item.namespace === namespace) &&
 					(!handler || item.handler === handler) &&
 					(!selector || item.selector === selector)
-				);
-			}), item => {
+			), (item) => {
 				element.removeEventListener(item.eventName, item.eventListener, useCapture || false);
 				handlers.splice(handlers.indexOf(item), 1);
 			});
 
-			if(!eventName && !namespace && !selector && !handler) {
+			if (!eventName && !namespace && !selector && !handler) {
 				clearHandlers(element);
-			} else if(handlers.length === 0) {
+			} else if (handlers.length === 0) {
 				clearHandlers(element);
 			}
-
 		});
-
 	}, this);
 
 	return this;
@@ -134,11 +133,11 @@ export const off = function (eventNames = '', selector, handler, useCapture) {
 
 const eventKeyProp = '__domtastic_event__';
 let id = 1;
-let handlers = {};
-let unusedKeys = [];
+const handlers = {};
+const unusedKeys = [];
 
-export const getHandlers = element => {
-	if(!element[eventKeyProp]) {
+export const getHandlers = (element) => {
+	if (!element[eventKeyProp]) {
 		element[eventKeyProp] = unusedKeys.length === 0 ? ++id : unusedKeys.pop();
 	}
 	const key = element[eventKeyProp];
@@ -152,9 +151,9 @@ export const getHandlers = element => {
  * @param {Node} element
  */
 
-export const clearHandlers = element => {
+export const clearHandlers = (element) => {
 	const key = element[eventKeyProp];
-	if(handlers[key]) {
+	if (handlers[key]) {
 		handlers[key] = null;
 		element[eventKeyProp] = null;
 		unusedKeys.push(key);
@@ -170,7 +169,7 @@ export const clearHandlers = element => {
  * @return {Function}
  */
 
-export const proxyHandler = handler => function (event) {
+export const proxyHandler = (handler) => function (event) {
 	return handler.call(this, augmentEvent(event));
 };
 
@@ -190,9 +189,9 @@ const returnFalse = () => false;
  * @return {Function}
  */
 
-const augmentEvent = event => {
-	if(!event.isDefaultPrevented || event.stopImmediatePropagation || event.stopPropagation) {
-		for(const methodName in eventMethods) {
+const augmentEvent = (event) => {
+	if (!event.isDefaultPrevented || event.stopImmediatePropagation || event.stopPropagation) {
+		for (const methodName in eventMethods) {
 			(function (methodName, testMethodName, originalMethod) {
 				event[methodName] = function () {
 					this[testMethodName] = returnTrue;
@@ -201,7 +200,7 @@ const augmentEvent = event => {
 				event[testMethodName] = returnFalse;
 			}(methodName, eventMethods[methodName], event[methodName]));
 		}
-		if(event._preventDefault) {
+		if (event._preventDefault) {
 			event.preventDefault();
 		}
 	}
@@ -222,8 +221,8 @@ const augmentEvent = event => {
 export const delegateHandler = function (selector, handler, event) {
 	const eventTarget = event._target || event.target;
 	const currentTarget = closest.call([eventTarget], selector, this)[0];
-	if(currentTarget && currentTarget !== this) {
-		if(currentTarget === eventTarget || !(event.isPropagationStopped && event.isPropagationStopped())) {
+	if (currentTarget && currentTarget !== this) {
+		if (currentTarget === eventTarget || !(event.isPropagationStopped && event.isPropagationStopped())) {
 			handler.call(currentTarget, event);
 		}
 	}

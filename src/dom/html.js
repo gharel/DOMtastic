@@ -2,7 +2,9 @@
  * @module HTML
  */
 
-import {each} from '../util';
+import {
+	each
+} from '../util';
 
 /**
  * Get the HTML contents of the first element, or set the HTML contents for each element in the collection.
@@ -16,10 +18,10 @@ import {each} from '../util';
  */
 
 export const html = function (fragment) {
-	if(fragment === undefined) {
+	if (fragment === undefined) {
 		const element = this.nodeType ? this : this[0];
 		return element ? element.innerHTML : undefined;
 	}
 
-	return each(this, element => element.innerHTML = fragment);
+	return each(this, (element) => element.innerHTML = fragment);
 };

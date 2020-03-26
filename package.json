@@ -42,9 +42,7 @@
 	"scripts": {
 		"build": "rollup -c && rollup -c --config:minify",
 		"bundle": "rollup -c",
-		"size": "size-limit dist/domtastic.min.js --limit 4.5KB --no-webpack",
-		"coverage": "NODE_ENV=test nyc --reporter text --reporter html npm test -- --reporter=dot",
-		"coveralls": "NODE_ENV=test nyc --reporter=text-lcov npm test | coveralls",
+		"size": "size-limit dist/domtastic.min.js --limit 12KB --no-webpack",
 		"doc": "doxstrap --title DOMtastic --output doc",
 		"lint": "eslint src",
 		"fix": "eslint src --fix",

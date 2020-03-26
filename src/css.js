@@ -2,13 +2,15 @@
  * @module CSS
  */
 
-import {each} from './util';
+import {
+	each
+} from './util';
 
-const isNumeric = value => !isNaN(parseFloat(value)) && isFinite(value);
+const isNumeric = (value) => !isNaN(parseFloat(value)) && isFinite(value);
 
-const camelize = value => value.replace(/-([\da-z])/gi, (matches, letter) => letter.toUpperCase());
+const camelize = (value) => value.replace(/-([\da-z])/gi, (matches, letter) => letter.toUpperCase());
 
-const dasherize = value => value.replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
+const dasherize = (value) => value.replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
 
 /**
  * Get the value of a style property for the first element, or set one or more style properties for each element in the collection.
@@ -24,14 +26,14 @@ const dasherize = value => value.replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCa
  */
 
 export const css = function (key, value) {
-	let styleProps, prop, val;
+	let prop; let styleProps; let val;
 
-	if(typeof key === 'string') {
+	if (typeof key === 'string') {
 		key = camelize(key);
 
-		if(typeof value === 'undefined') {
-			let element = this.nodeType ? this : this[0];
-			if(element) {
+		if (typeof value === 'undefined') {
+			const element = this.nodeType ? this : this[0];
+			if (element) {
 				val = element.style[key];
 				return isNumeric(val) ? parseFloat(val) : val;
 			}
@@ -42,16 +44,16 @@ export const css = function (key, value) {
 		styleProps[key] = value;
 	} else {
 		styleProps = key;
-		for(prop in styleProps) {
+		for (prop in styleProps) {
 			val = styleProps[prop];
 			delete styleProps[prop];
 			styleProps[camelize(prop)] = val;
 		}
 	}
 
-	each(this, element => {
-		for(prop in styleProps) {
-			if(styleProps[prop] || styleProps[prop] === 0) {
+	each(this, (element) => {
+		for (prop in styleProps) {
+			if (styleProps[prop] || styleProps[prop] === 0) {
 				element.style[prop] = styleProps[prop];
 			} else {
 				element.style.removeProperty(dasherize(prop));

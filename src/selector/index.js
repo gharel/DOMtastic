@@ -2,7 +2,9 @@
  * @module Selector
  */
 
-import {win, each} from '../util';
+import {
+	each, win
+} from '../util';
 
 let isPrototypeSet = false;
 
@@ -30,13 +32,13 @@ const reSimpleSelector = /^[.#]?[\w-]*$/;
 const domtastic = function domtastic(selector, context = document) {
 	let collection;
 
-	if(!selector) {
+	if (!selector) {
 		collection = document.querySelectorAll(null);
-	} else if(selector instanceof DOMtastic) {
+	} else if (selector instanceof DOMtastic) {
 		return selector;
-	} else if(typeof selector !== 'string') {
+	} else if (typeof selector !== 'string') {
 		collection = selector.nodeType || selector === window ? [selector] : selector;
-	} else if(reFragment.test(selector)) {
+	} else if (reFragment.test(selector)) {
 		collection = createFragment(selector);
 	} else {
 		context = typeof context === 'string' ? document.querySelector(context) : context.length ? context[0] : context;
@@ -59,8 +61,8 @@ export const $ = domtastic;
 
 export const find = function (selector) {
 	const nodes = [];
-	each(this, node => each(querySelector(selector, node), child => {
-		if(nodes.indexOf(child) === -1) {
+	each(this, (node) => each(querySelector(selector, node), (child) => {
+		if (nodes.indexOf(child) === -1) {
 			nodes.push(child);
 		}
 	}));
@@ -96,12 +98,12 @@ export const matches = (() => {
 const querySelector = (selector, context) => {
 	const isSimpleSelector = reSimpleSelector.test(selector);
 
-	if(isSimpleSelector) {
-		if(selector[0] === '#') {
+	if (isSimpleSelector) {
+		if (selector[0] === '#') {
 			const element = (context.getElementById ? context : document).getElementById(selector.slice(1));
 			return element ? [element] : [];
 		}
-		if(selector[0] === '.') {
+		if (selector[0] === '.') {
 			return context.getElementsByClassName(selector.slice(1));
 		}
 		return context.getElementsByTagName(selector);
@@ -118,8 +120,8 @@ const querySelector = (selector, context) => {
  * @return {NodeList}
  */
 
-const createFragment = html => {
-	if(reSingleTag.test(html)) {
+const createFragment = (html) => {
+	if (reSingleTag.test(html)) {
 		return [document.createElement(RegExp.$1)];
 	}
 
@@ -129,7 +131,7 @@ const createFragment = html => {
 
 	container.innerHTML = html;
 
-	for(let i = 0, l = children.length; i < l; i++) {
+	for (let i = 0, l = children.length; i < l; i++) {
 		elements.push(children[i]);
 	}
 
@@ -144,8 +146,8 @@ const createFragment = html => {
  * @return Object) The wrapped collection
  */
 
-const wrap = collection => {
-	if(!isPrototypeSet) {
+const wrap = (collection) => {
+	if (!isPrototypeSet) {
 		DOMtastic.prototype = $.fn;
 		DOMtastic.prototype.constructor = DOMtastic;
 		isPrototypeSet = true;
@@ -165,7 +167,7 @@ const wrap = collection => {
 export const DOMtastic = function DOMtastic(collection) {
 	let i = 0;
 	const length = collection.length;
-	for(; i < length;) {
+	for (; i < length;) {
 		this[i] = collection[i++];
 	}
 	this.length = length;

@@ -2,7 +2,9 @@
  * @module Class
  */
 
-import {each} from '../util';
+import {
+	each
+} from '../util';
 
 /**
  * Add a class to the element(s)
@@ -16,7 +18,7 @@ import {each} from '../util';
  */
 
 export const addClass = function (value) {
-	if(value && value.length) {
+	if (value && value.length) {
 		each(value.split(' '), _each.bind(this, 'add'));
 	}
 	return this;
@@ -34,7 +36,7 @@ export const addClass = function (value) {
  */
 
 export const removeClass = function (value) {
-	if(value && value.length) {
+	if (value && value.length) {
 		each(value.split(' '), _each.bind(this, 'remove'));
 	}
 	return this;
@@ -54,7 +56,7 @@ export const removeClass = function (value) {
  */
 
 export const toggleClass = function (value, state) {
-	if(value && value.length) {
+	if (value && value.length) {
 		each(value.split(' '), _each.bind(this, 'toggle'));
 	}
 	return this;
@@ -71,7 +73,7 @@ export const toggleClass = function (value, state) {
  */
 
 export const hasClass = function (value) {
-	return (this.nodeType ? [this] : this).some(element => element.classList.contains(value));
+	return (this.nodeType ? [this] : this).some((element) => element.classList.contains(value));
 };
 
 /**
@@ -83,5 +85,5 @@ export const hasClass = function (value) {
  */
 
 const _each = function (fnName, className) {
-	return each(this, element => element.classList[fnName](className));
+	return each(this, (element) => element.classList[fnName](className));
 };

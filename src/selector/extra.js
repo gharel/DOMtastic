@@ -2,8 +2,12 @@
  * @module Selector (extra)
  */
 
-import {each, toArray} from '../util';
-import {$, matches} from './index';
+import {
+	each, toArray
+} from '../util';
+import {
+	$, matches
+} from './index';
 
 /**
  * Return children of each element in the collection, optionally filtered by a selector.
@@ -18,10 +22,10 @@ import {$, matches} from './index';
 
 export const children = function (selector) {
 	const nodes = [];
-	each(this, element => {
-		if(element.children) {
-			each(element.children, child => {
-				if(!selector || (selector && matches(child, selector))) {
+	each(this, (element) => {
+		if (element.children) {
+			each(element.children, (child) => {
+				if (!selector || selector && matches(child, selector)) {
 					nodes.push(child);
 				}
 			});
@@ -86,8 +90,8 @@ export const get = function (index) {
 
 export const parent = function (selector) {
 	const nodes = [];
-	each(this, element => {
-		if(!selector || (selector && matches(element.parentNode, selector))) {
+	each(this, (element) => {
+		if (!selector || selector && matches(element.parentNode, selector)) {
 			nodes.push(element.parentNode);
 		}
 	});

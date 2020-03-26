@@ -76,6 +76,58 @@ describe('selectors', function () {
 		});
 	});
 
+	describe('closest', function () {
+		it('should return closest matching element (self)', function () {
+			var actual = $('#testFragment li.two').closest('.two');
+			var expected = $('#testFragment li.two');
+			assert(actual.length === 1);
+			assert.deepEqual(actual, expected);
+		});
+
+		it('should return closest matching element', function () {
+			var actual = $('#testFragment li.two').closest('ul');
+			var expected = $('#testFragment ul');
+			assert(actual.length === 1);
+			assert.deepEqual(actual, expected);
+		});
+
+		it('should return queried descendants from each element in collection', function () {
+			var actual = $('#testFragment li span').closest('li');
+			var expected = $('#testFragment li');
+			assert(actual.length === 5);
+			assert.deepEqual(actual, expected);
+		});
+
+		it('should return unique closest matching element', function () {
+			var actual = $('#testFragment li').closest('ul');
+			var expected = $('#testFragment ul');
+			assert(actual.length === 1);
+			assert.deepEqual(actual, expected);
+		});
+
+		it('should return closest matching element within context', function () {
+			var context = $('#testFragment')[0];
+			var actual = $('#testFragment li.two').closest('ul', context);
+			var expected = $('#testFragment ul');
+			assert(actual.length === 1);
+			assert.deepEqual(actual, expected);
+		});
+
+		it('should return empty set if matching element is not within context', function () {
+			var context = $('#testFragment ul')[0];
+			var actual = $('#testFragment li.two').closest('body', context);
+			var expected = $('#testFragment ul');
+			assert(actual.length === 0);
+		});
+
+		it('should return empty collection when there are no matches', function () {
+			var actual = $('#testFragment').closest('.foo');
+			var expected = $('.foo');
+			assert(actual.length === 0);
+			assert.deepEqual(actual, expected);
+		});
+	});
+
 	it('should provide a chainable API', function () {
 		var element = $('body').find('#testFragment').find('.two');
 		assert(element[0] === $('.two')[0]);

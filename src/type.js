@@ -13,7 +13,7 @@
  *     $.isFunction({}); // false
  */
 
-export const isFunction = obj => typeof obj === 'function';
+export const isFunction = (obj) => typeof obj === 'function';
 
 /**
  * Determine whether the argument is an array.

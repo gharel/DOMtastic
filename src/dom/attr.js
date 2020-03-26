@@ -2,7 +2,9 @@
  * @module Attr
  */
 
-import {each} from '../util';
+import {
+	each
+} from '../util';
 
 /**
  * Get the value of an attribute for the first element, or set one or more attributes for each element in the collection.
@@ -18,14 +20,14 @@ import {each} from '../util';
  */
 
 export const attr = function (key, value) {
-	if(typeof key === 'string' && typeof value === 'undefined') {
+	if (typeof key === 'string' && typeof value === 'undefined') {
 		const element = this.nodeType ? this : this[0];
 		return element ? element.getAttribute(key) : undefined;
 	}
 
-	return each(this, element => {
-		if(typeof key === 'object') {
-			for(let attr in key) {
+	return each(this, (element) => {
+		if (typeof key === 'object') {
+			for (const attr in key) {
 				element.setAttribute(attr, key[attr]);
 			}
 		} else {
@@ -45,5 +47,5 @@ export const attr = function (key, value) {
  */
 
 export const removeAttr = function (key) {
-	return each(this, element => element.removeAttribute(key));
+	return each(this, (element) => element.removeAttribute(key));
 };
