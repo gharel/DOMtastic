@@ -1805,7 +1805,7 @@
 	extend(api, array, css$1, dom_attr, dom, dom_class, dom_data, dom_extra, dom_html, event, event_trigger, event_ready, selector_closest, selector_extra);
 	$$1.fn = api; // Version
 
-	$$1.version = '0.15.12'; // Util
+	$$1.version = '0.16.1'; // Util
 
 	$$1.extend = extend; // Provide base class to extend from
 
