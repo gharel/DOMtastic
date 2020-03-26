@@ -5,10 +5,16 @@
 			"npm run doc"
 		]
 	},
+	"git": {
+		"changelog": "git log --pretty=format:\"* %s (%h)\" ${latestTag}...HEAD",
+		"commit": true,
+		"tag": true,
+		"requireCleanWorkingDir": false
+	},
 	"github": {
 		"release": true
 	},
-	"git": {
-		"requireCleanWorkingDir": false
+	"npm": {
+		"publish": false
 	}
 }
