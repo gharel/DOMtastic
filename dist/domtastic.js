@@ -66,7 +66,7 @@
 	 *     $.extend({a: 1}, {b: 2}, {a: 3}); // {a: 3, b: 2}
 	 */
 
-	var extend$1 = function extend(target) {
+	var extend = function extend(target) {
 	  for (var _len = arguments.length, sources = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	    sources[_key - 1] = arguments[_key];
 	  }
@@ -91,35 +91,6 @@
 	    return collection.indexOf(item) === index;
 	  });
 	};
-	/**
-	 * Check if touch device
-	 *
-	 * @return {Boolean}
-	 */
-
-	var isTouch = function isTouch() {
-	  return Boolean('ontouchstart' in window);
-	};
-	/**
-	 * Check if mobile with media queries
-	 *
-	 * @param width Width under that mobile is true
-	 * @return {Boolean}
-	 */
-
-	var isMobileByMQ = function isMobileByMQ(width) {
-	  return 'matchMedia' in window && window.matchMedia("(max-width:" + width + "px)").matches;
-	};
-
-	var util = /*#__PURE__*/Object.freeze({
-		win: win,
-		toArray: toArray,
-		each: each,
-		extend: extend$1,
-		uniq: uniq,
-		isTouch: isTouch,
-		isMobileByMQ: isMobileByMQ
-	});
 
 	/**
 	 * @module Selector
@@ -530,7 +501,7 @@
 	    DOMtastic.call(this, $.apply(void 0, arguments));
 	  };
 
-	  extend$1(BaseClass.prototype, api);
+	  extend(BaseClass.prototype, api);
 	  return BaseClass;
 	}
 
@@ -1784,6 +1755,34 @@
 	});
 
 	/**
+	 * @module Tool
+	 */
+
+	/**
+	 * Check if touch device
+	 *
+	 * @return {Boolean}
+	 */
+	var isTouch = function isTouch() {
+	  return Boolean('ontouchstart' in window);
+	};
+	/**
+	 * Check if mobile with media queries
+	 *
+	 * @param width Width under that mobile is true
+	 * @return {Boolean}
+	 */
+
+	var isMobileByMQ = function isMobileByMQ(width) {
+	  return 'matchMedia' in window && window.matchMedia("(max-width:" + width + "px)").matches;
+	};
+
+	var tool = /*#__PURE__*/Object.freeze({
+		isTouch: isTouch,
+		isMobileByMQ: isMobileByMQ
+	});
+
+	/**
 	 * @module Type
 	 */
 
@@ -1830,13 +1829,13 @@
 	  api.find = find;
 	}
 
-	extend($$1, dom_contains, type);
-	extend(api, array, css$1, dom_attr, dom, dom_class, dom_data, dom_extra, dom_html, event, event_trigger, event_ready, selector_closest, selector_extra, util);
+	extend($$1, dom_contains, type, tool);
+	extend(api, array, css$1, dom_attr, dom, dom_class, dom_data, dom_extra, dom_html, event, event_trigger, event_ready, selector_closest, selector_extra);
 	$$1.fn = api; // Version
 
-	$$1.version = '0.16.3'; // Util
+	$$1.version = '0.16.4'; // Util
 
-	$$1.extend = extend$1; // Provide base class to extend from
+	$$1.extend = extend; // Provide base class to extend from
 
 	if (typeof BaseClass !== 'undefined') {
 	  $$1.BaseClass = BaseClass($$1.fn);
