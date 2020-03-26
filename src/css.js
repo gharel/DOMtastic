@@ -2,7 +2,7 @@
  * @module CSS
  */
 
-import { each } from './util';
+import {each} from './util';
 
 const isNumeric = value => !isNaN(parseFloat(value)) && isFinite(value);
 
@@ -23,42 +23,41 @@ const dasherize = value => value.replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCa
  *     $('.item').css({'border-width': '1px', display: 'inline-block'}); // set multiple
  */
 
-export const css = function(key, value) {
+export const css = function (key, value) {
+	let styleProps, prop, val;
 
-  let styleProps, prop, val;
+	if(typeof key === 'string') {
+		key = camelize(key);
 
-  if(typeof key === 'string') {
-    key = camelize(key);
+		if(typeof value === 'undefined') {
+			let element = this.nodeType ? this : this[0];
+			if(element) {
+				val = element.style[key];
+				return isNumeric(val) ? parseFloat(val) : val;
+			}
+			return undefined;
+		}
 
-    if(typeof value === 'undefined') {
-      let element = this.nodeType ? this : this[0];
-      if(element) {
-        val = element.style[key];
-        return isNumeric(val) ? parseFloat(val) : val;
-      }
-      return undefined;
-    }
+		styleProps = {};
+		styleProps[key] = value;
+	} else {
+		styleProps = key;
+		for(prop in styleProps) {
+			val = styleProps[prop];
+			delete styleProps[prop];
+			styleProps[camelize(prop)] = val;
+		}
+	}
 
-    styleProps = {};
-    styleProps[key] = value;
-  } else {
-    styleProps = key;
-    for(prop in styleProps) {
-      val = styleProps[prop];
-      delete styleProps[prop];
-      styleProps[camelize(prop)] = val;
-    }
-  }
+	each(this, element => {
+		for(prop in styleProps) {
+			if(styleProps[prop] || styleProps[prop] === 0) {
+				element.style[prop] = styleProps[prop];
+			} else {
+				element.style.removeProperty(dasherize(prop));
+			}
+		}
+	});
 
-  each(this, element => {
-    for(prop in styleProps) {
-      if(styleProps[prop] || styleProps[prop] === 0) {
-        element.style[prop] = styleProps[prop];
-      } else {
-        element.style.removeProperty(dasherize(prop));
-      }
-    }
-  });
-
-  return this;
+	return this;
 };

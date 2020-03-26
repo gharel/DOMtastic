@@ -2,8 +2,8 @@
  * @module Array
  */
 
-import { each as _each, toArray } from './util';
-import { $, matches } from './selector/index';
+import {each as _each, toArray} from './util';
+import {$, matches} from './selector/index';
 
 const ArrayProto = Array.prototype;
 
@@ -37,9 +37,9 @@ export const every = ArrayProto.every;
  *     });
  */
 
-export const filter = function(selector, thisArg) {
-  const callback = typeof selector === 'function' ? selector : element => matches(element, selector);
-  return $(ArrayProto.filter.call(this, callback, thisArg));
+export const filter = function (selector, thisArg) {
+	const callback = typeof selector === 'function' ? selector : element => matches(element, selector);
+	return $(ArrayProto.filter.call(this, callback, thisArg));
 };
 
 /**
@@ -55,8 +55,8 @@ export const filter = function(selector, thisArg) {
  *     );
  */
 
-export const forEach = function(callback, thisArg) {
-  return _each(this, callback, thisArg);
+export const forEach = function (callback, thisArg) {
+	return _each(this, callback, thisArg);
 };
 
 export const each = forEach;
@@ -146,8 +146,8 @@ export const reduceRight = ArrayProto.reduceRight;
  *     $('.items').reverse();
  */
 
-export const reverse = function() {
-  return $(toArray(this).reverse());
+export const reverse = function () {
+	return $(toArray(this).reverse());
 };
 
 /**

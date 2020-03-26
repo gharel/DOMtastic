@@ -2,8 +2,8 @@
  * @module Events
  */
 
-import { each } from '../util';
-import { closest } from '../selector/closest';
+import {each} from '../util';
+import {closest} from '../selector/closest';
 
 /**
  * Shorthand for `addEventListener`. Supports event delegation if a filter (`selector`) is provided.
@@ -20,53 +20,50 @@ import { closest } from '../selector/closest';
  *     $('.container').on('click focus', '.item', handler);
  */
 
-export const on = function(eventNames, selector, handler, useCapture, once) {
+export const on = function (eventNames, selector, handler, useCapture, once) {
+	if(typeof selector === 'function') {
+		handler = selector;
+		selector = null;
+	}
 
-  if(typeof selector === 'function') {
-    handler = selector;
-    selector = null;
-  }
+	let parts,
+		namespace,
+		eventListener;
 
-  let parts,
-    namespace,
-    eventListener;
+	eventNames.split(' ').forEach(eventName => {
+		parts = eventName.split('.');
+		eventName = parts[0] || null;
+		namespace = parts[1] || null;
 
-  eventNames.split(' ').forEach(eventName => {
+		eventListener = proxyHandler(handler);
 
-    parts = eventName.split('.');
-    eventName = parts[0] || null;
-    namespace = parts[1] || null;
+		each(this, element => {
+			if(selector) {
+				eventListener = delegateHandler.bind(element, selector, eventListener);
+			}
 
-    eventListener = proxyHandler(handler);
+			if(once) {
+				const listener = eventListener;
+				eventListener = event => {
+					off.call(element, eventNames, selector, handler, useCapture);
+					listener.call(element, event);
+				};
+			}
 
-    each(this, element => {
+			element.addEventListener(eventName, eventListener, useCapture || false);
 
-      if(selector) {
-        eventListener = delegateHandler.bind(element, selector, eventListener);
-      }
+			getHandlers(element).push({
+				eventName,
+				handler,
+				eventListener,
+				selector,
+				namespace
+			});
+		});
 
-      if(once) {
-        const listener = eventListener;
-        eventListener = event => {
-          off.call(element, eventNames, selector, handler, useCapture);
-          listener.call(element, event);
-        };
-      }
+	}, this);
 
-      element.addEventListener(eventName, eventListener, useCapture || false);
-
-      getHandlers(element).push({
-        eventName,
-        handler,
-        eventListener,
-        selector,
-        namespace
-      });
-    });
-
-  }, this);
-
-  return this;
+	return this;
 };
 
 /**
@@ -84,67 +81,47 @@ export const on = function(eventNames, selector, handler, useCapture, once) {
  *     $('.item').off();
  */
 
-export const off = function(eventNames = '', selector, handler, useCapture) {
+export const off = function (eventNames = '', selector, handler, useCapture) {
+	if(typeof selector === 'function') {
+		handler = selector;
+		selector = null;
+	}
 
-  if(typeof selector === 'function') {
-    handler = selector;
-    selector = null;
-  }
+	let parts,
+		namespace,
+		handlers;
 
-  let parts,
-    namespace,
-    handlers;
+	eventNames.split(' ').forEach(eventName => {
+		parts = eventName.split('.');
+		eventName = parts[0] || null;
+		namespace = parts[1] || null;
 
-  eventNames.split(' ').forEach(eventName => {
+		return each(this, element => {
+			handlers = getHandlers(element);
 
-    parts = eventName.split('.');
-    eventName = parts[0] || null;
-    namespace = parts[1] || null;
+			each(handlers.filter(item => {
+				return (
+					(!eventName || item.eventName === eventName) &&
+					(!namespace || item.namespace === namespace) &&
+					(!handler || item.handler === handler) &&
+					(!selector || item.selector === selector)
+				);
+			}), item => {
+				element.removeEventListener(item.eventName, item.eventListener, useCapture || false);
+				handlers.splice(handlers.indexOf(item), 1);
+			});
 
-    return each(this, element => {
+			if(!eventName && !namespace && !selector && !handler) {
+				clearHandlers(element);
+			} else if(handlers.length === 0) {
+				clearHandlers(element);
+			}
 
-      handlers = getHandlers(element);
+		});
 
-      each(handlers.filter(item => {
-        return (
-          (!eventName || item.eventName === eventName) &&
-          (!namespace || item.namespace === namespace) &&
-          (!handler || item.handler === handler) &&
-          (!selector || item.selector === selector)
-        );
-      }), item => {
-        element.removeEventListener(item.eventName, item.eventListener, useCapture || false);
-        handlers.splice(handlers.indexOf(item), 1);
-      });
+	}, this);
 
-      if(!eventName && !namespace && !selector && !handler) {
-        clearHandlers(element);
-      } else if(handlers.length === 0) {
-        clearHandlers(element);
-      }
-
-    });
-
-  }, this);
-
-  return this;
-};
-
-/**
- * Add event listener and execute the handler at most once per element.
- *
- * @param eventNames
- * @param selector
- * @param handler
- * @param useCapture
- * @return {Object} The wrapped collection
- * @chainable
- * @example
- *     $('.item').one('click', callback);
- */
-
-export const one = function(eventNames, selector, handler, useCapture) {
-  return on.call(this, eventNames, selector, handler, useCapture, 1);
+	return this;
 };
 
 /**
@@ -161,11 +138,11 @@ let handlers = {};
 let unusedKeys = [];
 
 export const getHandlers = element => {
-  if(!element[eventKeyProp]) {
-    element[eventKeyProp] = unusedKeys.length === 0 ? ++id : unusedKeys.pop();
-  }
-  const key = element[eventKeyProp];
-  return handlers[key] || (handlers[key] = []);
+	if(!element[eventKeyProp]) {
+		element[eventKeyProp] = unusedKeys.length === 0 ? ++id : unusedKeys.pop();
+	}
+	const key = element[eventKeyProp];
+	return handlers[key] || (handlers[key] = []);
 };
 
 /**
@@ -176,12 +153,12 @@ export const getHandlers = element => {
  */
 
 export const clearHandlers = element => {
-  const key = element[eventKeyProp];
-  if(handlers[key]) {
-    handlers[key] = null;
-    element[eventKeyProp] = null;
-    unusedKeys.push(key);
-  }
+	const key = element[eventKeyProp];
+	if(handlers[key]) {
+		handlers[key] = null;
+		element[eventKeyProp] = null;
+		unusedKeys.push(key);
+	}
 };
 
 /**
@@ -193,14 +170,14 @@ export const clearHandlers = element => {
  * @return {Function}
  */
 
-export const proxyHandler = handler => function(event) {
-  return handler.call(this, augmentEvent(event));
+export const proxyHandler = handler => function (event) {
+	return handler.call(this, augmentEvent(event));
 };
 
 const eventMethods = {
-  preventDefault: 'isDefaultPrevented',
-  stopImmediatePropagation: 'isImmediatePropagationStopped',
-  stopPropagation: 'isPropagationStopped'
+	preventDefault: 'isDefaultPrevented',
+	stopImmediatePropagation: 'isImmediatePropagationStopped',
+	stopPropagation: 'isPropagationStopped'
 };
 const returnTrue = () => true;
 const returnFalse = () => false;
@@ -214,21 +191,21 @@ const returnFalse = () => false;
  */
 
 const augmentEvent = event => {
-  if(!event.isDefaultPrevented || event.stopImmediatePropagation || event.stopPropagation) {
-    for(const methodName in eventMethods) {
-      (function(methodName, testMethodName, originalMethod) {
-        event[methodName] = function() {
-          this[testMethodName] = returnTrue;
-          return originalMethod && originalMethod.apply(this, arguments);
-        };
-        event[testMethodName] = returnFalse;
-      }(methodName, eventMethods[methodName], event[methodName]));
-    }
-    if(event._preventDefault) {
-      event.preventDefault();
-    }
-  }
-  return event;
+	if(!event.isDefaultPrevented || event.stopImmediatePropagation || event.stopPropagation) {
+		for(const methodName in eventMethods) {
+			(function (methodName, testMethodName, originalMethod) {
+				event[methodName] = function () {
+					this[testMethodName] = returnTrue;
+					return originalMethod && originalMethod.apply(this, arguments);
+				};
+				event[testMethodName] = returnFalse;
+			}(methodName, eventMethods[methodName], event[methodName]));
+		}
+		if(event._preventDefault) {
+			event.preventDefault();
+		}
+	}
+	return event;
 };
 
 /**
@@ -242,15 +219,12 @@ const augmentEvent = event => {
  * @param {Event} event
  */
 
-export const delegateHandler = function(selector, handler, event) {
-  const eventTarget = event._target || event.target;
-  const currentTarget = closest.call([eventTarget], selector, this)[0];
-  if(currentTarget && currentTarget !== this) {
-    if(currentTarget === eventTarget || !(event.isPropagationStopped && event.isPropagationStopped())) {
-      handler.call(currentTarget, event);
-    }
-  }
+export const delegateHandler = function (selector, handler, event) {
+	const eventTarget = event._target || event.target;
+	const currentTarget = closest.call([eventTarget], selector, this)[0];
+	if(currentTarget && currentTarget !== this) {
+		if(currentTarget === eventTarget || !(event.isPropagationStopped && event.isPropagationStopped())) {
+			handler.call(currentTarget, event);
+		}
+	}
 };
-
-export const bind = on;
-export const unbind = off;

@@ -1,8 +1,8 @@
-/*
+/**
  * @module Util
  */
 
-/*
+/**
  * Reference to the window object
  * @private
  */
@@ -18,12 +18,12 @@ export const win = typeof window !== 'undefined' ? window : {};
  */
 
 export const toArray = collection => {
-  const length = collection.length;
-  const result = new Array(length);
-  for(let i = 0; i < length; i++) {
-    result[i] = collection[i];
-  }
-  return result;
+	const length = collection.length;
+	const result = new Array(length);
+	for(let i = 0; i < length; i++) {
+		result[i] = collection[i];
+	}
+	return result;
 };
 
 /**
@@ -36,15 +36,15 @@ export const toArray = collection => {
  */
 
 export const each = (collection, callback, thisArg) => {
-  const length = collection.length;
-  if(length !== undefined && collection.nodeType === undefined) {
-    for(let i = 0; i < length; i++) {
-      callback.call(thisArg, collection[i], i, collection);
-    }
-  } else {
-    callback.call(thisArg, collection, 0, collection);
-  }
-  return collection;
+	const length = collection.length;
+	if(length !== undefined && collection.nodeType === undefined) {
+		for(let i = 0; i < length; i++) {
+			callback.call(thisArg, collection[i], i, collection);
+		}
+	} else {
+		callback.call(thisArg, collection, 0, collection);
+	}
+	return collection;
 };
 
 /**
@@ -61,12 +61,12 @@ export const each = (collection, callback, thisArg) => {
  */
 
 export const extend = (target, ...sources) => {
-  sources.forEach(src => {
-    for(let prop in src) {
-      target[prop] = src[prop];
-    }
-  });
-  return target;
+	sources.forEach(src => {
+		for(let prop in src) {
+			target[prop] = src[prop];
+		}
+	});
+	return target;
 };
 
 /**

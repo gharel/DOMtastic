@@ -10,10 +10,8 @@ ratings:
   paths:
   - "src/**.js"
 exclude_paths:
-- benchmark/
 - build/
 - dist/
-- examples/
 - node_modules/
 - test/
 - vendor/

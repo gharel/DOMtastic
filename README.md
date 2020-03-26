@@ -4,7 +4,7 @@
 - Same familiar API as jQuery (but without the extra "weight" of modules like `$.ajax`, `$.animate`, and `$.Deferred`).
 - Dependency-free. Weighs in at only 1KB to 12KB (minified), depending on included modules. Full bundle is about 4KB gzipped.
 - Works great stand-alone or paired up with e.g. Backbone or Angular.
-- The [source](https://github.com/webpro/DOMtastic) is written in ES6 format.
+- The [source](https://github.com/gharel/DOMtastic) is written in ES6 format.
 - [Rollup](http://rollupjs.org) and [babel](https://babeljs.io) are used to create a [UMD](https://github.com/umdjs/umd) bundle (supporting AMD, CommonJS, and fallback to browser global).
 - Supercharge your components and extend from the [base class](#es6-class).
 - Easy to create a [custom build](#custom-build) to include or exclude parts.
@@ -20,7 +20,6 @@
 
 [![Build Status](https://travis-ci.org/webpro/DOMtastic.png?branch=master)](https://travis-ci.org/webpro/DOMtastic)
 [![Coverage Status](https://coveralls.io/repos/github/webpro/DOMtastic/badge.svg)](https://coveralls.io/github/webpro/DOMtastic)
-![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=MUcvSm9ES1VaYlpTMnk0NytOVDdML3FxRlJNM0VNR2RQdnBPMGduNUowZz0tLUNHWkJ4V2t0SXNqUkRRQUJjTWVnekE9PQ==--c64c417a0144336c1f174ecbe35b4801f82b74e0)
 [![Code Climate](https://codeclimate.com/github/webpro/DOMtastic/badges/gpa.svg)](https://codeclimate.com/github/webpro/DOMtastic)
 [![gzip size](http://img.badgesize.io/https://unpkg.com/domtastic/dist/domtastic.min.js?compression=gzip)](https://unpkg.com/domtastic/dist/domtastic.min.js)
 [![](https://data.jsdelivr.com/v1/package/npm/domtastic/badge)](https://www.jsdelivr.com/package/npm/domtastic)
@@ -45,28 +44,6 @@ npm install domtastic
 
 ```javascript
 var $ = require('domtastic');
-```
-
-### AMD
-
-```bash
-bower install domtastic
-```
-
-```javascript
-requirejs.config({
-  baseUrl: 'bower_components',
-  packages: [
-    {
-      name: 'domtastic',
-      main: 'domtastic'
-    }
-  ]
-});
-
-require(['domtastic'], function($) {
-  $('.earth').addClass('evergreen').on('sunrise', '.people', awake);
-});
 ```
 
 ### Browser Global
@@ -138,10 +115,6 @@ Read more in the [baseClass article](https://medium.com/@webprolific/domtastic-s
     removeClass
     toggleClass
 
-### [DOM/contains](https://domtastic.js.org/doc#dom/contains)
-
-    contains
-
 ### [DOM/data](https://domtastic.js.org/doc#dom/data)
 
     data
@@ -152,7 +125,6 @@ Read more in the [baseClass article](https://medium.com/@webprolific/domtastic-s
     appendTo
     empty
     remove
-    replaceWith
     text
     val
 
@@ -162,9 +134,8 @@ Read more in the [baseClass article](https://medium.com/@webprolific/domtastic-s
 
 ### [Event](https://domtastic.js.org/doc/#event/index)
 
-    on (alias: bind)
-    off (alias: unbind)
-    one
+    on
+    off
 
 ### [Event/ready](https://domtastic.js.org/doc#event/ready)
 
@@ -175,31 +146,19 @@ Read more in the [baseClass article](https://medium.com/@webprolific/domtastic-s
     trigger
     triggerHandler
 
-### [NoConflict](https://domtastic.js.org/doc#noconflict)
-
-    noConflict
-
 ### [Selector](https://domtastic.js.org/doc/#selector/index)
 
     $
     find
     matches
 
-### [Selector/closest](https://domtastic.js.org/doc#selector/closest)
-
-    closest
-
 ### [Selector/extra](https://domtastic.js.org/doc#selector/extra)
 
     children
-    concat
-    contents
     eq
     first
     get
     parent
-    siblings
-    slice
 
 ### [Type](https://domtastic.js.org/doc#type)
 
@@ -220,7 +179,7 @@ As mentioned in the introduction, DOMtastic doesn't feature methods for Ajax, An
 
 Please note that you can extend the `$.fn` object, just like [jQuery Plugins](http://learn.jquery.com/plugins/basic-plugin-creation/).
 
-Feel free to [open an issue](https://github.com/webpro/DOMtastic/issues) if you feel an important method is missing.
+Feel free to [open an issue](https://github.com/gharel/DOMtastic/issues) if you feel an important method is missing.
 
 ## Browser Support
 
@@ -235,7 +194,7 @@ Run the [benchmark suite](https://domtastic.js.org/benchmark/) to compare the pe
 You can build a custom bundle that _excludes_ specific modules that you don't need:
 
 ```bash
-git clone git@github.com:webpro/DOMtastic.git
+git clone git@github.com:gharel/DOMtastic.git
 cd DOMtastic
 npm install
 npm run bundle -- --exclude=css,dom/html,event/trigger
@@ -249,17 +208,9 @@ npm run bundle -- --include=array,selector/index,dom/class
 
 Find the output in the `dist/` folder.
 
-### jQuery Compatibility
-
-Some iterator method signatures in jQuery are different (i.e. non-standard), most notably the `index` before `element` argument in `each`, `filter` and `map`). However, a custom build that is compatible with jQuery can be created by using the `--jquery-compat` flag:
-
-```bash
-npm run bundle -- --jquery-compat
-```
-
 ### Build a custom API for your application
 
-You can also build a custom API from the ground up. By default, DOMtastic [does it](https://github.com/webpro/DOMtastic/blob/master/src/index.js) for you, but you can easily do it yourself in a highly custom approach. Grab the `$` function from the `selector`, and extend the `$.fn` object with methods from specific modules:
+You can also build a custom API from the ground up. By default, DOMtastic [does it](https://github.com/gharel/DOMtastic/blob/master/src/index.js) for you, but you can easily do it yourself in a highly custom approach. Grab the `$` function from the `selector`, and extend the `$.fn` object with methods from specific modules:
 
 ```javascript
 var selector = require('domtastic/commonjs/selector'),
@@ -284,18 +235,7 @@ Run the hosted [test suite](https://domtastic.js.org/test/) in your browser. You
 Many thanks to these sources of inspiration:
 
 - [jQuery](http://jquery.com/)
-- [madrobby/zepto](https://github.com/madrobby/zepto/)
-- [remy/min.js](https://github.com/remy/min.js)
-- [Knockout](https://github.com/knockout/knockout/blob/master/src/utils.js)
-- [inkling/Backbone.Native](https://github.com/inkling/backbone.native/blob/master/backbone.native.js)
-
-Thanks to the [jsDelivr Open Source CDN](https://www.jsdelivr.com/) for [hosting DOMtastic](https://www.jsdelivr.com/projects/domtastic).
-
-[<img src="https://www.jsdelivr.com/img/logo@2x.png" width="300">](https://www.jsdelivr.com)
-
-Thanks to [BrowserStack](https://www.browserstack.com) for their real device cloud.
-
-[<img src="https://cloud.githubusercontent.com/assets/7864462/12837037/452a17c6-cb73-11e5-9f39-fc96893bc9bf.png" width="300">](https://www.browserstack.com)
+- [zepto](https://github.com/madrobby/zepto/)
 
 ## License
 

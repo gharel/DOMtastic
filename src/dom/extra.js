@@ -2,9 +2,9 @@
  * @module DOM (extra)
  */
 
-import { each } from '../util';
-import { append, before } from './index';
-import { $ } from '../selector/index';
+import {each} from '../util';
+import {append} from './index';
+import {$} from '../selector/index';
 
 /**
  * Append each element in the collection to the specified element(s).
@@ -16,13 +16,13 @@ import { $ } from '../selector/index';
  *     $('.item').appendTo(container);
  */
 
-export const appendTo = function(element) {
-  const context = typeof element === 'string' ? $(element) : element;
-  append.call(context, this);
-  return this;
+export const appendTo = function (element) {
+	const context = typeof element === 'string' ? $(element) : element;
+	append.call(context, this);
+	return this;
 };
 
-/*
+/**
  * Empty each element in the collection.
  *
  * @return {Object} The wrapped collection
@@ -31,8 +31,8 @@ export const appendTo = function(element) {
  *     $('.item').empty();
  */
 
-export const empty = function() {
-  return each(this, element => element.innerHTML = '');
+export const empty = function () {
+	return each(this, element => element.innerHTML = '');
 };
 
 /**
@@ -43,22 +43,12 @@ export const empty = function() {
  *     $('.item').remove();
  */
 
-export const remove = function() {
-  return each(this, element => {
-    if(element.parentNode) {
-      element.parentNode.removeChild(element);
-    }
-  });
-};
-
-/**
- * Replace each element in the collection with the provided new content, and return the array of elements that were replaced.
- *
- * @return {Array} Array containing the replaced elements
- */
-
-export const replaceWith = function() {
-  return before.apply(this, arguments).remove();
+export const remove = function () {
+	return each(this, element => {
+		if(element.parentNode) {
+			element.parentNode.removeChild(element);
+		}
+	});
 };
 
 /**
@@ -71,13 +61,12 @@ export const replaceWith = function() {
  *     $('.item').text('New content');
  */
 
-export const text = function(value) {
+export const text = function (value) {
+	if(value === undefined) {
+		return this[0].textContent;
+	}
 
-  if(value === undefined) {
-    return this[0].textContent;
-  }
-
-  return each(this, element => element.textContent = '' + value);
+	return each(this, element => element.textContent = '' + value);
 };
 
 /**
@@ -90,11 +79,10 @@ export const text = function(value) {
  *     $('input.firstName').val('New value');
  */
 
-export const val = function(value) {
+export const val = function (value) {
+	if(value === undefined) {
+		return this.length > 0 ? this[0].value : undefined;
+	}
 
-  if(value === undefined) {
-    return this.length > 0 ? this[0].value : undefined;
-  }
-
-  return each(this, element => element.value = value);
+	return each(this, element => element.value = value);
 };

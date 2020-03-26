@@ -2,7 +2,7 @@
  * @module Type
  */
 
-/*
+/**
  * Determine if the argument passed is a Javascript function object.
  *
  * @param {Object} [obj] Object to test whether or not it is a function.
@@ -15,7 +15,7 @@
 
 export const isFunction = obj => typeof obj === 'function';
 
-/*
+/**
  * Determine whether the argument is an array.
  *
  * @param {Object} [obj] Object to test whether or not it is an array.
