@@ -2,12 +2,8 @@
  * @module Array
  */
 
-import {
-	each as _each, toArray
-} from './util';
-import {
-	$, matches
-} from './selector/index';
+import { $, matches } from './selector/index';
+import { each as _each, toArray } from './util';
 
 const ArrayProto = Array.prototype;
 

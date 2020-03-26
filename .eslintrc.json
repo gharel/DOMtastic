@@ -213,7 +213,7 @@
 		"object-curly-newline": [
 			"error",
 			{
-				"minProperties": 1
+				"minProperties": 3
 			}
 		],
 		"object-curly-spacing": [

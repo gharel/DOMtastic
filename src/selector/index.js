@@ -2,9 +2,7 @@
  * @module Selector
  */
 
-import {
-	each, win
-} from '../util';
+import { each, win } from '../util';
 
 let isPrototypeSet = false;
 

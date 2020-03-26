@@ -2,9 +2,7 @@
  * @module Data
  */
 
-import {
-	each
-} from '../util';
+import { each } from '../util';
 
 const isSupportsDataSet = typeof document !== 'undefined' && 'dataset' in document.documentElement;
 const DATAKEYPROP = isSupportsDataSet ? 'dataset' : '__DOMTASTIC_DATA__';

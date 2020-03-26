@@ -2,9 +2,7 @@
  * @module CSS
  */
 
-import {
-	each
-} from './util';
+import { each } from './util';
 
 const isNumeric = (value) => !isNaN(parseFloat(value)) && isFinite(value);
 
@@ -26,7 +24,9 @@ const dasherize = (value) => value.replace(/([a-z\d])([A-Z])/g, '$1-$2').toLower
  */
 
 export const css = function (key, value) {
-	let prop; let styleProps; let val;
+	let prop;
+	let styleProps;
+	let val;
 
 	if (typeof key === 'string') {
 		key = camelize(key);
@@ -35,6 +35,9 @@ export const css = function (key, value) {
 			const element = this.nodeType ? this : this[0];
 			if (element) {
 				val = element.style[key];
+				if (val === '') {
+					val = getComputedStyle(element)[key];
+				}
 				return isNumeric(val) ? parseFloat(val) : val;
 			}
 			return undefined;

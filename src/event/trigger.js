@@ -2,12 +2,8 @@
  * @module trigger
  */
 
-import {
-	each, win
-} from '../util';
-import {
-	contains
-} from '../dom/contains';
+import { contains } from '../dom/contains';
+import { each, win } from '../util';
 
 const reMouseEvent = /^(mouse(down|up|over|out|enter|leave|move)|contextmenu|(dbl)?click)$/;
 const reKeyEvent = /^key(down|press|up)$/;
@@ -71,10 +67,8 @@ const getEventConstructor = (type) => isSupportsOtherEventConstructors ? reMouse
 
 export const triggerHandler = function (type, data) {
 	if (this[0]) {
-		trigger.call(this[0], type, data, {
-			bubbles: false,
-			preventDefault: true
-		});
+		trigger.call(this[0], type, data, { bubbles: false,
+			preventDefault: true });
 	}
 };
 
@@ -170,9 +164,7 @@ const isEventBubblingInDetachedTree = (() => {
 		parent.addEventListener('e', () => {
 			isBubbling = true;
 		});
-		child.dispatchEvent(new CustomEvent('e', {
-			bubbles: true
-		}));
+		child.dispatchEvent(new CustomEvent('e', { bubbles: true }));
 	}
 	return isBubbling;
 })();

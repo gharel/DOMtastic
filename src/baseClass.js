@@ -2,12 +2,8 @@
  * @module BaseClass
  */
 
-import {
-	DOMtastic, $ as selector
-} from './selector/index';
-import {
-	extend
-} from './util';
+import { DOMtastic, $ as selector } from './selector/index';
+import { extend } from './util';
 
 export default function (api) {
 	/**

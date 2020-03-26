@@ -2,12 +2,8 @@
  * @module Events
  */
 
-import {
-	each
-} from '../util';
-import {
-	closest
-} from '../selector/closest';
+import { closest } from '../selector/closest';
+import { each } from '../util';
 
 /**
  * Shorthand for `addEventListener`. Supports event delegation if a filter (`selector`) is provided.
@@ -104,9 +100,9 @@ export const off = function (eventNames = '', selector, handler, useCapture) {
 
 			each(handlers.filter((item) =>
 				(!eventName || item.eventName === eventName) &&
-					(!namespace || item.namespace === namespace) &&
-					(!handler || item.handler === handler) &&
-					(!selector || item.selector === selector)
+				(!namespace || item.namespace === namespace) &&
+				(!handler || item.handler === handler) &&
+				(!selector || item.selector === selector)
 			), (item) => {
 				element.removeEventListener(item.eventName, item.eventListener, useCapture || false);
 				handlers.splice(handlers.indexOf(item), 1);

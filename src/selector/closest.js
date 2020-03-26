@@ -2,12 +2,8 @@
  * @module closest
  */
 
-import {
-	$, matches
-} from './index';
-import {
-	each, uniq
-} from '../util';
+import { each, uniq } from '../util';
+import { $, matches } from './index';
 
 /**
  * Return the closest element matching the selector (starting by itself) for each element in the collection.

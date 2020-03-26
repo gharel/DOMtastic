@@ -2,15 +2,9 @@
  * @module DOM (extra)
  */
 
-import {
-	each
-} from '../util';
-import {
-	append
-} from './index';
-import {
-	$
-} from '../selector/index';
+import { $ } from '../selector/index';
+import { each } from '../util';
+import { append } from './index';
 
 /**
  * Append each element in the collection to the specified element(s).

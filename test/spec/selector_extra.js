@@ -86,8 +86,8 @@ describe('selectors (extra)', function () {
 		});
 	});
 
-	describe('slice', function() {
-		it('should slice the elements', function() {
+	describe('slice', function () {
+		it('should slice the elements', function () {
 			var expected = $('#testFragment li');
 			var actual = $('#testFragment li').slice(-3, -1);
 			assert(actual.length === 2);

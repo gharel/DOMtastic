@@ -47,7 +47,7 @@
 		"lint": "eslint src",
 		"fix": "eslint src --fix",
 		"test": "npm run bundle && mocha",
-		"watch": "onchange 'src/**/*.js' -- npm run bundle",
+		"watch": "onchange \"src/**/*.js\" -- npm run bundle",
 		"release": "release-it"
 	},
 	"devDependencies": {

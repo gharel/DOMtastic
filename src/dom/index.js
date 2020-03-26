@@ -2,12 +2,8 @@
  * @module DOM
  */
 
-import {
-	toArray
-} from '../util';
-import {
-	$
-} from '../selector/index';
+import { $ } from '../selector/index';
+import { toArray } from '../util';
 
 const forEach = Array.prototype.forEach;
 
