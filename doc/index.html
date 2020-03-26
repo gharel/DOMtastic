@@ -262,6 +262,8 @@
                         <a href="#util"><strong>Util</strong></a>
                         <ul class="">
                                 <li><a href="#util-extend">extend</a></li>
+                                <li><a href="#util-isTouch">isTouch</a></li>
+                                <li><a href="#util-isMobileByMQ">isMobileByMQ</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -2826,7 +2828,7 @@ return BaseClass;
                                         </div>
                                         <div class="tab-pane" id="-source">
                                             <pre><code class="language-javascript">export const on &#x3D; function (eventNames, selector, handler, useCapture, once) {
-	if(typeof selector &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
+	if (typeof selector &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
 		handler &#x3D; selector;
 		selector &#x3D; null;
 	}
@@ -2843,11 +2845,11 @@ return BaseClass;
 		eventListener &#x3D; proxyHandler(handler);
 
 		each(this, (element) &#x3D;&gt; {
-			if(selector) {
+			if (selector) {
 				eventListener &#x3D; delegateHandler.bind(element, selector, eventListener);
 			}
 
-			if(once) {
+			if (once) {
 				const listener &#x3D; eventListener;
 				eventListener &#x3D; (event) &#x3D;&gt; {
 					off.call(element, eventNames, selector, handler, useCapture);
@@ -2963,7 +2965,7 @@ return BaseClass;
                                         </div>
                                         <div class="tab-pane" id="-source">
                                             <pre><code class="language-javascript">export const off &#x3D; function (eventNames &#x3D; &#x27;&#x27;, selector, handler, useCapture) {
-	if(typeof selector &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
+	if (typeof selector &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
 		handler &#x3D; selector;
 		selector &#x3D; null;
 	}
@@ -2990,9 +2992,9 @@ return BaseClass;
 				handlers.splice(handlers.indexOf(item), 1);
 			});
 
-			if(!eventName &amp;&amp; !namespace &amp;&amp; !selector &amp;&amp; !handler) {
+			if (!eventName &amp;&amp; !namespace &amp;&amp; !selector &amp;&amp; !handler) {
 				clearHandlers(element);
-			} else if(handlers.length &#x3D;&#x3D;&#x3D; 0) {
+			} else if (handlers.length &#x3D;&#x3D;&#x3D; 0) {
 				clearHandlers(element);
 			}
 		});
@@ -4276,6 +4278,111 @@ export const $ &#x3D; domtastic;</code></pre>
 	});
 	return target;
 };</code></pre>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </section>
+
+                            <section id="util-isTouch">
+
+
+                                <h3>
+                                    isTouch
+                                    <em> ()</em>
+                                </h3>
+
+                                <div class="block">
+
+                                    <p>Check if touch device</p>
+
+
+                                    <p><strong>Returns</strong><br>
+                                        <span class="label label-primary">Boolean</span>
+                                        &nbsp;
+                                        
+                                        
+                                        <!--
+                                        &nbsp;
+
+                                        -->
+                                    </p>
+
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#isTouch-example-0" data-toggle="tab">Example</a></li>
+                                        <li>
+                                            <a href="#-source" data-toggle="tab">Source</a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div class="active tab-pane" id="isTouch-example-0">
+                                            <pre><code class="language-javascript">// Sorry, no example available.</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="-source">
+                                            <pre><code class="language-javascript">export const isTouch &#x3D; () &#x3D;&gt; Boolean(&#x27;ontouchstart&#x27; in window);</code></pre>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </section>
+
+                            <section id="util-isMobileByMQ">
+
+
+                                <h3>
+                                    isMobileByMQ
+                                    <em> (width)</em>
+                                </h3>
+
+                                <div class="block">
+
+                                    <p>Check if mobile with media queries</p>
+
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="3">Arguments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><em>width</em></td>
+                                                <td></td>
+                                                <td>
+                                                    <p>Width under that mobile is true</p>
+                                                    
+                                                    
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <p><strong>Returns</strong><br>
+                                        <span class="label label-primary">Boolean</span>
+                                        &nbsp;
+                                        
+                                        
+                                        <!--
+                                        &nbsp;
+
+                                        -->
+                                    </p>
+
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#isMobileByMQ-example-0" data-toggle="tab">Example</a></li>
+                                        <li>
+                                            <a href="#-source" data-toggle="tab">Source</a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div class="active tab-pane" id="isMobileByMQ-example-0">
+                                            <pre><code class="language-javascript">// Sorry, no example available.</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="-source">
+                                            <pre><code class="language-javascript">export const isMobileByMQ &#x3D; (width) &#x3D;&gt; &#x27;matchMedia&#x27; in window &amp;&amp; window.matchMedia(&#x60;(max-width:${width}px)&#x60;).matches;</code></pre>
                                         </div>
                                     </div>
 

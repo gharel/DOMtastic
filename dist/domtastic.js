@@ -589,177 +589,6 @@
 	});
 
 	/**
-	 * @module DOM
-	 */
-	var forEach$1 = Array.prototype.forEach;
-	/**
-	 * Append element(s) to each element in the collection.
-	 *
-	 * @param {String|Node|NodeList|Object} element What to append to the element(s).
-	 * Clones elements as necessary.
-	 * @return {Object} The wrapped collection
-	 * @chainable
-	 * @example
-	 *     $('.item').append('<p>more</p>');
-	 */
-
-	var append = function append(element) {
-	  if (this instanceof Node) {
-	    if (typeof element === 'string') {
-	      this.insertAdjacentHTML('beforeend', element);
-	    } else if (element instanceof Node) {
-	      this.appendChild(element);
-	    } else {
-	      var elements = element instanceof NodeList ? toArray(element) : element;
-	      forEach$1.call(elements, this.appendChild.bind(this));
-	    }
-	  } else {
-	    _each(this, append, element);
-	  }
-
-	  return this;
-	};
-	/**
-	 * Place element(s) at the beginning of each element in the collection.
-	 *
-	 * @param {String|Node|NodeList|Object} element What to place at the beginning of the element(s).
-	 * Clones elements as necessary.
-	 * @return {Object} The wrapped collection
-	 * @chainable
-	 * @example
-	 *     $('.item').prepend('<span>start</span>');
-	 */
-
-	var prepend = function prepend(element) {
-	  if (this instanceof Node) {
-	    if (typeof element === 'string') {
-	      this.insertAdjacentHTML('afterbegin', element);
-	    } else if (element instanceof Node) {
-	      this.insertBefore(element, this.firstChild);
-	    } else {
-	      var elements = element instanceof NodeList ? toArray(element) : element;
-	      forEach$1.call(elements.reverse(), prepend.bind(this));
-	    }
-	  } else {
-	    _each(this, prepend, element);
-	  }
-
-	  return this;
-	};
-	/**
-	 * Place element(s) before each element in the collection.
-	 *
-	 * @param {String|Node|NodeList|Object} element What to place as sibling(s) before to the element(s).
-	 * Clones elements as necessary.
-	 * @return {Object} The wrapped collection
-	 * @chainable
-	 * @example
-	 *     $('.items').before('<p>prefix</p>');
-	 */
-
-	var before = function before(element) {
-	  if (this instanceof Node) {
-	    if (typeof element === 'string') {
-	      this.insertAdjacentHTML('beforebegin', element);
-	    } else if (element instanceof Node) {
-	      this.parentNode.insertBefore(element, this);
-	    } else {
-	      var elements = element instanceof NodeList ? toArray(element) : element;
-	      forEach$1.call(elements, before.bind(this));
-	    }
-	  } else {
-	    _each(this, before, element);
-	  }
-
-	  return this;
-	};
-	/**
-	 * Place element(s) after each element in the collection.
-	 *
-	 * @param {String|Node|NodeList|Object} element What to place as sibling(s) after to the element(s). Clones elements as necessary.
-	 * @return {Object} The wrapped collection
-	 * @chainable
-	 * @example
-	 *     $('.items').after('<span>suf</span><span>fix</span>');
-	 */
-
-	var after = function after(element) {
-	  if (this instanceof Node) {
-	    if (typeof element === 'string') {
-	      this.insertAdjacentHTML('afterend', element);
-	    } else if (element instanceof Node) {
-	      this.parentNode.insertBefore(element, this.nextSibling);
-	    } else {
-	      var elements = element instanceof NodeList ? toArray(element) : element;
-	      forEach$1.call(elements.reverse(), after.bind(this));
-	    }
-	  } else {
-	    _each(this, after, element);
-	  }
-
-	  return this;
-	};
-	/**
-	 * Clone a wrapped object.
-	 *
-	 * @return {Object} Wrapped collection of cloned nodes.
-	 * @example
-	 *     $(element).clone();
-	 */
-
-	var clone = function clone() {
-	  return $(_clone(this));
-	};
-	/**
-	 * Clone an object
-	 *
-	 * @param {String|Node|NodeList|Array} element The element(s) to clone.
-	 * @return {String|Node|NodeList|Array} The cloned element(s)
-	 * @private
-	 */
-
-	var _clone = function _clone(element) {
-	  if (typeof element === 'string') {
-	    return element;
-	  } else if (element instanceof Node) {
-	    return element.cloneNode(true);
-	  } else if ('length' in element) {
-	    return [].map.call(element, function (el) {
-	      return el.cloneNode(true);
-	    });
-	  }
-
-	  return element;
-	};
-	/**
-	 * Specialized iteration, applying `fn` in reversed manner to a clone of each element, but the provided one.
-	 *
-	 * @param {NodeList|Array} collection
-	 * @param {Function} fn
-	 * @param {Node} element
-	 * @private
-	 */
-
-	var _each = function _each(collection, fn, element) {
-	  var l = collection.length;
-
-	  while (l--) {
-	    var elm = l === 0 ? element : _clone(element);
-	    fn.call(collection[l], elm);
-	  }
-	};
-
-	var dom = /*#__PURE__*/Object.freeze({
-		append: append,
-		prepend: prepend,
-		before: before,
-		after: after,
-		clone: clone,
-		_clone: _clone,
-		_each: _each
-	});
-
-	/**
 	 * @module Attr
 	 */
 	/**
@@ -828,7 +657,7 @@
 
 	var addClass = function addClass(value) {
 	  if (value && value.length) {
-	    each(value.split(' '), _each$1.bind(this, 'add'));
+	    each(value.split(' '), _each.bind(this, 'add'));
 	  }
 
 	  return this;
@@ -846,7 +675,7 @@
 
 	var removeClass = function removeClass(value) {
 	  if (value && value.length) {
-	    each(value.split(' '), _each$1.bind(this, 'remove'));
+	    each(value.split(' '), _each.bind(this, 'remove'));
 	  }
 
 	  return this;
@@ -866,7 +695,7 @@
 
 	var toggleClass = function toggleClass(value, state) {
 	  if (value && value.length) {
-	    each(value.split(' '), _each$1.bind(this, 'toggle'));
+	    each(value.split(' '), _each.bind(this, 'toggle'));
 	  }
 
 	  return this;
@@ -894,7 +723,7 @@
 	 * @private
 	 */
 
-	var _each$1 = function _each(fnName, className) {
+	var _each = function _each(fnName, className) {
 	  return each(this, function (element) {
 	    return element.classList[fnName](className);
 	  });
@@ -1000,6 +829,177 @@
 	var dom_data = /*#__PURE__*/Object.freeze({
 		data: data,
 		prop: prop
+	});
+
+	/**
+	 * @module DOM
+	 */
+	var forEach$1 = Array.prototype.forEach;
+	/**
+	 * Append element(s) to each element in the collection.
+	 *
+	 * @param {String|Node|NodeList|Object} element What to append to the element(s).
+	 * Clones elements as necessary.
+	 * @return {Object} The wrapped collection
+	 * @chainable
+	 * @example
+	 *     $('.item').append('<p>more</p>');
+	 */
+
+	var append = function append(element) {
+	  if (this instanceof Node) {
+	    if (typeof element === 'string') {
+	      this.insertAdjacentHTML('beforeend', element);
+	    } else if (element instanceof Node) {
+	      this.appendChild(element);
+	    } else {
+	      var elements = element instanceof NodeList ? toArray(element) : element;
+	      forEach$1.call(elements, this.appendChild.bind(this));
+	    }
+	  } else {
+	    _each$1(this, append, element);
+	  }
+
+	  return this;
+	};
+	/**
+	 * Place element(s) at the beginning of each element in the collection.
+	 *
+	 * @param {String|Node|NodeList|Object} element What to place at the beginning of the element(s).
+	 * Clones elements as necessary.
+	 * @return {Object} The wrapped collection
+	 * @chainable
+	 * @example
+	 *     $('.item').prepend('<span>start</span>');
+	 */
+
+	var prepend = function prepend(element) {
+	  if (this instanceof Node) {
+	    if (typeof element === 'string') {
+	      this.insertAdjacentHTML('afterbegin', element);
+	    } else if (element instanceof Node) {
+	      this.insertBefore(element, this.firstChild);
+	    } else {
+	      var elements = element instanceof NodeList ? toArray(element) : element;
+	      forEach$1.call(elements.reverse(), prepend.bind(this));
+	    }
+	  } else {
+	    _each$1(this, prepend, element);
+	  }
+
+	  return this;
+	};
+	/**
+	 * Place element(s) before each element in the collection.
+	 *
+	 * @param {String|Node|NodeList|Object} element What to place as sibling(s) before to the element(s).
+	 * Clones elements as necessary.
+	 * @return {Object} The wrapped collection
+	 * @chainable
+	 * @example
+	 *     $('.items').before('<p>prefix</p>');
+	 */
+
+	var before = function before(element) {
+	  if (this instanceof Node) {
+	    if (typeof element === 'string') {
+	      this.insertAdjacentHTML('beforebegin', element);
+	    } else if (element instanceof Node) {
+	      this.parentNode.insertBefore(element, this);
+	    } else {
+	      var elements = element instanceof NodeList ? toArray(element) : element;
+	      forEach$1.call(elements, before.bind(this));
+	    }
+	  } else {
+	    _each$1(this, before, element);
+	  }
+
+	  return this;
+	};
+	/**
+	 * Place element(s) after each element in the collection.
+	 *
+	 * @param {String|Node|NodeList|Object} element What to place as sibling(s) after to the element(s). Clones elements as necessary.
+	 * @return {Object} The wrapped collection
+	 * @chainable
+	 * @example
+	 *     $('.items').after('<span>suf</span><span>fix</span>');
+	 */
+
+	var after = function after(element) {
+	  if (this instanceof Node) {
+	    if (typeof element === 'string') {
+	      this.insertAdjacentHTML('afterend', element);
+	    } else if (element instanceof Node) {
+	      this.parentNode.insertBefore(element, this.nextSibling);
+	    } else {
+	      var elements = element instanceof NodeList ? toArray(element) : element;
+	      forEach$1.call(elements.reverse(), after.bind(this));
+	    }
+	  } else {
+	    _each$1(this, after, element);
+	  }
+
+	  return this;
+	};
+	/**
+	 * Clone a wrapped object.
+	 *
+	 * @return {Object} Wrapped collection of cloned nodes.
+	 * @example
+	 *     $(element).clone();
+	 */
+
+	var clone = function clone() {
+	  return $(_clone(this));
+	};
+	/**
+	 * Clone an object
+	 *
+	 * @param {String|Node|NodeList|Array} element The element(s) to clone.
+	 * @return {String|Node|NodeList|Array} The cloned element(s)
+	 * @private
+	 */
+
+	var _clone = function _clone(element) {
+	  if (typeof element === 'string') {
+	    return element;
+	  } else if (element instanceof Node) {
+	    return element.cloneNode(true);
+	  } else if ('length' in element) {
+	    return [].map.call(element, function (el) {
+	      return el.cloneNode(true);
+	    });
+	  }
+
+	  return element;
+	};
+	/**
+	 * Specialized iteration, applying `fn` in reversed manner to a clone of each element, but the provided one.
+	 *
+	 * @param {NodeList|Array} collection
+	 * @param {Function} fn
+	 * @param {Node} element
+	 * @private
+	 */
+
+	var _each$1 = function _each(collection, fn, element) {
+	  var l = collection.length;
+
+	  while (l--) {
+	    var elm = l === 0 ? element : _clone(element);
+	    fn.call(collection[l], elm);
+	  }
+	};
+
+	var dom = /*#__PURE__*/Object.freeze({
+		append: append,
+		prepend: prepend,
+		before: before,
+		after: after,
+		clone: clone,
+		_clone: _clone,
+		_each: _each$1
 	});
 
 	/**
@@ -1413,6 +1413,33 @@
 	});
 
 	/**
+	 * @module Ready
+	 */
+
+	/**
+	 * Execute callback when `DOMContentLoaded` fires for `document`, or immediately if called afterwards.
+	 *
+	 * @param handler Callback to execute when initial DOM content is loaded.
+	 * @return {Object} The wrapped collection
+	 * @chainable
+	 * @example
+	 *     $(document).ready(callback);
+	 */
+	var ready = function ready(handler) {
+	  if (/complete|loaded|interactive/.test(document.readyState) && document.body) {
+	    handler();
+	  } else {
+	    document.addEventListener('DOMContentLoaded', handler, false);
+	  }
+
+	  return this;
+	};
+
+	var event_ready = /*#__PURE__*/Object.freeze({
+		ready: ready
+	});
+
+	/**
 	 * @module trigger
 	 */
 	var reMouseEvent = /^(mouse(down|up|over|out|enter|leave|move)|contextmenu|(dbl)?click)$/;
@@ -1616,33 +1643,6 @@
 	});
 
 	/**
-	 * @module Ready
-	 */
-
-	/**
-	 * Execute callback when `DOMContentLoaded` fires for `document`, or immediately if called afterwards.
-	 *
-	 * @param handler Callback to execute when initial DOM content is loaded.
-	 * @return {Object} The wrapped collection
-	 * @chainable
-	 * @example
-	 *     $(document).ready(callback);
-	 */
-	var ready = function ready(handler) {
-	  if (/complete|loaded|interactive/.test(document.readyState) && document.body) {
-	    handler();
-	  } else {
-	    document.addEventListener('DOMContentLoaded', handler, false);
-	  }
-
-	  return this;
-	};
-
-	var event_ready = /*#__PURE__*/Object.freeze({
-		ready: ready
-	});
-
-	/**
 	 * @module Selector (extra)
 	 */
 	/**
@@ -1793,7 +1793,7 @@
 	 * @module API
 	 */
 	var api = {};
-	var $$1 = {}; // Import modules to build up the API
+	var $$1 = {};
 
 	if (typeof selector !== 'undefined') {
 	  $$1 = $;
