@@ -3,9 +3,6 @@
 		"beforeStage": [
 			"npm run build",
 			"npm run doc"
-		],
-		"afterRelease": [
-			"git add . --all && git commit -m 'Release ${version}' && git push"
 		]
 	},
 	"github": {
