@@ -19,11 +19,13 @@
 		"email": "lars@webpro.nl",
 		"url": "https://webpro.nl"
 	},
-	"contributors": [{
-		"name": "Guillaume Harel",
-		"email": "contact@gharel.me",
-		"url": "https://gharel.me"
-	}],
+	"contributors": [
+		{
+			"name": "Guillaume Harel",
+			"email": "contact@gharel.me",
+			"url": "https://gharel.me"
+		}
+	],
 	"homepage": "https://domtastic.js.org",
 	"repository": {
 		"type": "git",
