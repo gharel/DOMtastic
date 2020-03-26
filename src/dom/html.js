@@ -4,7 +4,7 @@
 
 import { each } from '../util';
 
-/*
+/**
  * Get the HTML contents of the first element, or set the HTML contents for each element in the collection.
  *
  * @param {String} [fragment] HTML fragment to set for the element. If this argument is omitted, the HTML contents are returned.
@@ -15,12 +15,11 @@ import { each } from '../util';
  *     $('.item').html('<span>more</span>');
  */
 
-export const html = function(fragment) {
+export const html = function (fragment) {
+	if (fragment === undefined) {
+		const element = this.nodeType ? this : this[0];
+		return element ? element.innerHTML : undefined;
+	}
 
-  if(fragment === undefined) {
-    const element = this.nodeType ? this : this[0];
-    return element ? element.innerHTML : undefined;
-  }
-
-  return each(this, element => element.innerHTML = fragment);
+	return each(this, (element) => element.innerHTML = fragment);
 };

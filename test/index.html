@@ -1,69 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>DOMtastic Tests</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.2.0/chai.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/7.1.1/sinon.min.js"></script>
-    <script>
-      mocha.setup('bdd');
-      var assert = chai.assert;
-      window.onload = function () { mocha.run(); };
-    </script>
-    <!--[if gte IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.201711092/classList.min.js"></script>
-    <![endif]-->
-    <script src="helpers.js"></script>
-  </head>
-  <body>
+<head>
+	<title>DOMtastic Tests</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/5.2.0/mocha.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.2.0/chai.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sinon.js/7.1.1/sinon.min.js"></script>
+	<script>
+		mocha.setup('bdd');
+		var assert = chai.assert;
+		window.onload = function () {
+			mocha.run();
+		};
+	</script>
+	<!--[if gte IE 9]>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.2.201711092/classList.min.js"></script>
+	<![endif]-->
+	<script src="helpers.js"></script>
+</head>
+<body>
+<div id="mocha"></div>
 
-    <div id="mocha"></div>
+<div id="testFragment" style="display: none;">
 
-    <div id="testFragment" style="display: none;">
+	<ul>
+		<li data-id="1">1<span>.</span></li>
+		<li class="two">2<span>.</span></li>
+		<li class="three">3<span>.</span></li>
+		<li class="fourth">4<span>.</span></li>
+		<li>5<span>.</span></li>
+	</ul>
 
-      <ul>
-        <li data-id="1">1<span>.</span></li>
-        <li class="two">2<span>.</span></li>
-        <li class="three">3<span>.</span></li>
-        <li class="fourth">4<span>.</span></li>
-        <li>5<span>.</span></li>
-      </ul>
+	<div class="cleanup"><span></span></div>
 
-      <div class="cleanup"><span></span></div>
+	<form action="javascript:void(0);">
+		<input type="text"/>
+	</form>
 
-      <form action="javascript:void(0);">
-        <input type="text"/>
-      </form>
+	<a href="#hash">link</a>
 
-      <a href="#hash">link</a>
+	<div id="testEmpty"></div>
 
-      <div id="testEmpty"></div>
+	<div id="testElement"></div>
 
-      <div id="testElement"></div>
+</div>
 
-    </div>
+<script src="../dist/domtastic.js"></script>
 
-    <script src="../dist/domtastic.js"></script>
-
-    <script src="spec/array.js"></script>
-    <script src="spec/attr.js"></script>
-    <script src="spec/baseClass.js"></script>
-    <script src="spec/class.js"></script>
-    <script src="spec/contains.js"></script>
-    <script src="spec/css.js"></script>
-    <script src="spec/data.js"></script>
-    <script src="spec/dom.js"></script>
-    <script src="spec/dom_extra.js"></script>
-    <script src="spec/event.js"></script>
-    <script src="spec/html.js"></script>
-    <script src="spec/noconflict.js"></script>
-    <script src="spec/ready.js"></script>
-    <script src="spec/selector.js"></script>
-    <script src="spec/selector_extra.js"></script>
-    <script src="spec/trigger.js"></script>
-    <script src="spec/type.js"></script>
-    <script src="spec/util.js"></script>
-
-  </body>
+<script src="spec/array.js"></script>
+<script src="spec/attr.js"></script>
+<script src="spec/baseClass.js"></script>
+<script src="spec/class.js"></script>
+<script src="spec/contains.js"></script>
+<script src="spec/css.js"></script>
+<script src="spec/data.js"></script>
+<script src="spec/dom.js"></script>
+<script src="spec/dom_extra.js"></script>
+<script src="spec/event.js"></script>
+<script src="spec/html.js"></script>
+<script src="spec/ready.js"></script>
+<script src="spec/selector.js"></script>
+<script src="spec/selector_extra.js"></script>
+<script src="spec/trigger.js"></script>
+<script src="spec/type.js"></script>
+<script src="spec/util.js"></script>
+</body>
 </html>

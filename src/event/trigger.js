@@ -2,8 +2,8 @@
  * @module trigger
  */
 
-import { win, each } from '../util';
 import { contains } from '../dom/contains';
+import { each, win } from '../util';
 
 const reMouseEvent = /^(mouse(down|up|over|out|enter|leave|move)|contextmenu|(dbl)?click)$/;
 const reKeyEvent = /^key(down|press|up)$/;
@@ -23,33 +23,34 @@ const reKeyEvent = /^key(down|press|up)$/;
  *     $('.item').trigger('anyEventType');
  */
 
-export const trigger = function(type, data, {bubbles = true, cancelable = true, preventDefault = false} = {}) {
+export const trigger = function (type, data, {
+	bubbles = true, cancelable = true, preventDefault = false
+} = {}) {
+	const EventConstructor = getEventConstructor(type);
+	const event = new EventConstructor(type, {
+		bubbles,
+		cancelable,
+		preventDefault,
+		detail: data
+	});
 
-  const EventConstructor = getEventConstructor(type);
-  const event = new EventConstructor(type, {
-    bubbles,
-    cancelable,
-    preventDefault,
-    detail: data
-  });
+	event._preventDefault = preventDefault;
 
-  event._preventDefault = preventDefault;
-
-  return each(this, element => {
-    if(!bubbles || isEventBubblingInDetachedTree || isAttachedToDocument(element)) {
-      dispatchEvent(element, event);
-    } else {
-      triggerForPath(element, type, {
-        bubbles,
-        cancelable,
-        preventDefault,
-        detail: data
-      });
-    }
-  });
+	return each(this, (element) => {
+		if (!bubbles || isEventBubblingInDetachedTree || isAttachedToDocument(element)) {
+			dispatchEvent(element, event);
+		} else {
+			triggerForPath(element, type, {
+				bubbles,
+				cancelable,
+				preventDefault,
+				detail: data
+			});
+		}
+	});
 };
 
-const getEventConstructor = type => isSupportsOtherEventConstructors ? (reMouseEvent.test(type) ? MouseEvent : (reKeyEvent.test(type) ? KeyboardEvent : CustomEvent)) : CustomEvent;
+const getEventConstructor = (type) => isSupportsOtherEventConstructors ? reMouseEvent.test(type) ? MouseEvent : reKeyEvent.test(type) ? KeyboardEvent : CustomEvent : CustomEvent;
 
 /**
  * Trigger event at first element in the collection. Similar to `trigger()`, except:
@@ -64,13 +65,11 @@ const getEventConstructor = type => isSupportsOtherEventConstructors ? (reMouseE
  *     $('form').triggerHandler('submit');
  */
 
-export const triggerHandler = function(type, data) {
-  if(this[0]) {
-    trigger.call(this[0], type, data, {
-      bubbles: false,
-      preventDefault: true
-    });
-  }
+export const triggerHandler = function (type, data) {
+	if (this[0]) {
+		trigger.call(this[0], type, data, { bubbles: false,
+			preventDefault: true });
+	}
 };
 
 /**
@@ -81,11 +80,11 @@ export const triggerHandler = function(type, data) {
  * @return {Boolean}
  */
 
-const isAttachedToDocument = element => {
-  if(element === window || element === document) {
-    return true;
-  }
-  return contains(element.ownerDocument.documentElement, element);
+const isAttachedToDocument = (element) => {
+	if (element === window || element === document) {
+		return true;
+	}
+	return contains(element.ownerDocument.documentElement, element);
 };
 
 /**
@@ -103,12 +102,12 @@ const isAttachedToDocument = element => {
  */
 
 const triggerForPath = (element, type, params = {}) => {
-  params.bubbles = false;
-  const event = new CustomEvent(type, params);
-  event._target = element;
-  do {
-    dispatchEvent(element, event);
-  } while(element = element.parentNode); // eslint-disable-line no-cond-assign
+	params.bubbles = false;
+	const event = new CustomEvent(type, params);
+	event._target = element;
+	do {
+		dispatchEvent(element, event);
+	} while (element = element.parentNode); // eslint-disable-line no-cond-assign
 };
 
 /**
@@ -123,11 +122,11 @@ const triggerForPath = (element, type, params = {}) => {
 const directEventMethods = ['blur', 'focus', 'select', 'submit'];
 
 const dispatchEvent = (element, event) => {
-  if(directEventMethods.indexOf(event.type) !== -1 && typeof element[event.type] === 'function' && !event._preventDefault && !event.cancelable) {
-    element[event.type]();
-  } else {
-    element.dispatchEvent(event);
-  }
+	if (directEventMethods.indexOf(event.type) !== -1 && typeof element[event.type] === 'function' && !event._preventDefault && !event.cancelable) {
+		element[event.type]();
+	} else {
+		element.dispatchEvent(event);
+	}
 };
 
 /**
@@ -136,19 +135,18 @@ const dispatchEvent = (element, event) => {
  */
 
 (() => {
-  const CustomEvent = function(event, params = {
-    bubbles: false,
-    cancelable: false,
-    detail: undefined
-  }) {
-    let customEvent = document.createEvent('CustomEvent');
-    customEvent.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-    return customEvent;
-  };
+	const CustomEvent = function (event, params = {
+		bubbles: false,
+		cancelable: false,
+		detail: undefined
+	}) {
+		const customEvent = document.createEvent('CustomEvent');
+		customEvent.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+		return customEvent;
+	};
 
-  CustomEvent.prototype = win.CustomEvent && win.CustomEvent.prototype;
-  win.CustomEvent = CustomEvent;
-
+	CustomEvent.prototype = win.CustomEvent && win.CustomEvent.prototype;
+	win.CustomEvent = CustomEvent;
 })();
 
 /*
@@ -156,26 +154,26 @@ const dispatchEvent = (element, event) => {
  * @private
  */
 
-const isEventBubblingInDetachedTree = (() =>{
-  let isBubbling = false;
-  const doc = win.document;
-  if(doc) {
-    const parent = doc.createElement('div');
-    const child = parent.cloneNode();
-    parent.appendChild(child);
-    parent.addEventListener('e', function() {
-      isBubbling = true;
-    });
-    child.dispatchEvent(new CustomEvent('e', {bubbles: true}));
-  }
-  return isBubbling;
+const isEventBubblingInDetachedTree = (() => {
+	let isBubbling = false;
+	const doc = win.document;
+	if (doc) {
+		const parent = doc.createElement('div');
+		const child = parent.cloneNode();
+		parent.appendChild(child);
+		parent.addEventListener('e', () => {
+			isBubbling = true;
+		});
+		child.dispatchEvent(new CustomEvent('e', { bubbles: true }));
+	}
+	return isBubbling;
 })();
 
 const isSupportsOtherEventConstructors = (() => {
-  try {
-    new MouseEvent('click');
-  } catch(e) {
-    return false;
-  }
-  return true;
+	try {
+		new MouseEvent('click');
+	} catch (e) {
+		return false;
+	}
+	return true;
 })();

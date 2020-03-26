@@ -1,8 +1,5 @@
-coverage
 dist
 doc
 node_modules
-vendor
 .idea
-.nyc_output
 .stage

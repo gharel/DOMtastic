@@ -15,11 +15,11 @@ import { each } from '../util';
  *     $('.item').addClass('bar foo');
  */
 
-export const addClass = function(value) {
-  if(value && value.length) {
-    each(value.split(' '), _each.bind(this, 'add'));
-  }
-  return this;
+export const addClass = function (value) {
+	if (value && value.length) {
+		each(value.split(' '), _each.bind(this, 'add'));
+	}
+	return this;
 };
 
 /**
@@ -33,11 +33,11 @@ export const addClass = function(value) {
  *     $('.items').removeClass('bar foo');
  */
 
-export const removeClass = function(value) {
-  if(value && value.length) {
-    each(value.split(' '), _each.bind(this, 'remove'));
-  }
-  return this;
+export const removeClass = function (value) {
+	if (value && value.length) {
+		each(value.split(' '), _each.bind(this, 'remove'));
+	}
+	return this;
 };
 
 /**
@@ -53,12 +53,11 @@ export const removeClass = function(value) {
  *     $('.item').toggleClass('bar', true);
  */
 
-export const toggleClass = function(value, state) {
-  if(value && value.length) {
-    const action = typeof state === 'boolean' ? state ? 'add' : 'remove' : 'toggle';
-    each(value.split(' '), _each.bind(this, action));
-  }
-  return this;
+export const toggleClass = function (value, state) {
+	if (value && value.length) {
+		each(value.split(' '), _each.bind(this, 'toggle'));
+	}
+	return this;
 };
 
 /**
@@ -71,8 +70,8 @@ export const toggleClass = function(value, state) {
  *     $('.item').hasClass('bar');
  */
 
-export const hasClass = function(value) {
-  return (this.nodeType ? [this] : this).some(element => element.classList.contains(value));
+export const hasClass = function (value) {
+	return (this.nodeType ? [this] : this).some((element) => element.classList.contains(value));
 };
 
 /**
@@ -83,6 +82,6 @@ export const hasClass = function(value) {
  * @private
  */
 
-const _each = function(fnName, className) {
-  return each(this, element => element.classList[fnName](className));
+const _each = function (fnName, className) {
+	return each(this, (element) => element.classList[fnName](className));
 };

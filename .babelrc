@@ -1,16 +1,21 @@
 {
-  "presets": [
-    ["@babel/env", {
-      "modules": false,
-      "loose": true,
-      "targets": {
-        "ie": 9
-      }
-    }]
-  ],
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+	"presets": [
+		[
+			"@babel/env",
+			{
+				"modules": false,
+				"loose": true,
+				"targets": {
+					"ie": 9
+				}
+			}
+		]
+	],
+	"env": {
+		"test": {
+			"plugins": [
+				"istanbul"
+			]
+		}
+	}
 }
