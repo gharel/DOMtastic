@@ -1,21 +1,14 @@
 {
 	"scripts": {
-		"beforeStart": [
-			"git clone git@github.com:gharel/DOMtastic.git -b gh-pages .stage"
-		],
 		"beforeStage": [
 			"npm run build",
 			"npm run doc"
 		],
 		"afterRelease": [
-			"cd .stage && ../build/gh-pages.sh && git add . --all && git commit -m 'Release ${version}' && git push && cd -",
-			"rm -rf .stage"
+			"git add . --all && git commit -m 'Release ${version}' && git push"
 		]
 	},
 	"github": {
 		"release": true
-	},
-	"git": {
-		"requireCleanWorkingDir": false
 	}
 }
