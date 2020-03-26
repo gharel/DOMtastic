@@ -39,6 +39,7 @@
 	"module": "src/index.js",
 	"files": [
 		"dist",
+		"doc",
 		"src"
 	],
 	"scripts": {
