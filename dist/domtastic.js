@@ -1769,17 +1769,28 @@
 	/**
 	 * Check if mobile with media queries
 	 *
-	 * @param width Width under that mobile is true
+	 * @param {Number|String} [width] Width under that mobile is true
 	 * @return {Boolean}
 	 */
 
 	var isMobileByMQ = function isMobileByMQ(width) {
 	  return 'matchMedia' in window && window.matchMedia("(max-width:" + width + "px)").matches;
 	};
+	/**
+	 * Convert value into int correctly
+	 *
+	 * @param {Number|String} [value] Value under that mobile is true
+	 * @return {Int}
+	 */
+
+	var int = function int(value) {
+	  return parseInt(value, 10);
+	};
 
 	var tool = /*#__PURE__*/Object.freeze({
 		isTouch: isTouch,
-		isMobileByMQ: isMobileByMQ
+		isMobileByMQ: isMobileByMQ,
+		int: int
 	});
 
 	/**
@@ -1833,7 +1844,7 @@
 	extend(api, array, css$1, dom_attr, dom, dom_class, dom_data, dom_extra, dom_html, event, event_trigger, event_ready, selector_closest, selector_extra);
 	$$1.fn = api; // Version
 
-	$$1.version = '0.16.6'; // Util
+	$$1.version = '0.16.7'; // Util
 
 	$$1.extend = extend; // Provide base class to extend from
 
